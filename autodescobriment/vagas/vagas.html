@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vagas Reais – Elo Vertex</title>
+  <link rel="stylesheet" href="../assets/style.css" />
+  <style>
+    body {
+      background-color: #f4f7fb;
+      font-family: 'Segoe UI', sans-serif;
+      color: #222;
+    }
+
+    header {
+      background-color: #00264d;
+      padding: 15px;
+      text-align: center;
+    }
+
+    header img {
+      width: 60px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #0057a8;
+      margin: 20px 0;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.08);
+    }
+
+    .filtros {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .filtros select, .filtros input {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      flex: 1;
+    }
+
+    .vaga {
+      border-left: 5px solid #0057a8;
+      padding: 15px;
+      margin: 15px 0;
+      background: #f9f9f9;
+      border-radius: 8px;
+    }
+
+    .vaga h3 {
+      margin: 0;
+    }
+
+    .vaga p {
+      margin: 5px 0;
+    }
+
+    .vaga button {
+      margin-top: 10px;
+      background-color: #0057a8;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .voltar {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .voltar a {
+      background: #0057a8;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../dashboard.html">
+      <img src="../assets/logo.png" alt="Logo Elo Vertex">
+    </a>
+  </header>
+
+  <div class="container">
+    <h1>🔍 Vagas Reais</h1>
+
+    <div class="filtros">
+      <input type="text" id="pesquisa" placeholder="Buscar por palavra-chave (ex: estágio, design)">
+      <select id="cidade">
+        <option value="">Todas as cidades</option>
+        <option value="teresina">Teresina – PI</option>
+        <option value="parnaiba">Parnaíba – PI</option>
+        <option value="online">Remoto</option>
+      </select>
+      <select id="modalidade">
+        <option value="">Todas as modalidades</option>
+        <option value="estagio">Estágio</option>
+        <option value="emprego">Emprego</option>
+        <option value="aprendiz">Jovem Aprendiz</option>
+      </select>
+    </div>
+
+    <div id="lista-vagas">
+      <!-- Vagas inseridas via JS -->
+    </div>
+
+    <div class="voltar">
+      <a href="../dashboard.html">⬅ Voltar ao Painel</a>
+    </div>
+  </div>
+
+  <script>
+    const vagas = [
+      {
+        titulo: "Estágio em Marketing Digital",
+        empresa: "Agência Criativa XYZ",
+        local: "Remoto",
+        tipo: "Estágio",
+        descricao: "Criação de conteúdo, redes sociais e apoio em campanhas digitais.",
+      },
+      {
+        titulo: "Jovem Aprendiz – Administrativo",
+        empresa: "Grupo Piauí RH",
+        local: "Teresina – PI",
+        tipo: "Jovem Aprendiz",
+        descricao: "Auxiliar nas rotinas de escritório, com treinamento e supervisão.",
+      },
+      {
+        titulo: "Técnico em Informática",
+        empresa: "Instituto de Tecnologia IFPI",
+        local: "Parnaíba – PI",
+        tipo: "Emprego",
+        descricao: "Suporte em rede, manutenção de computadores e TI educacional.",
+      },
+      {
+        titulo: "Estágio em Design Gráfico",
+        empresa: "Studio Visual Elo",
+        local: "Remoto",
+        tipo: "Estágio",
+        descricao: "Criação de layouts para redes sociais e materiais gráficos.",
+      }
+    ];
+
+    function exibirVagas() {
+      const lista = document.getElementById('lista-vagas');
+      const filtroCidade = document.getElementById('cidade').value.toLowerCase();
+      const filtroTipo = document.getElementById('modalidade').value.toLowerCase();
+      const pesquisa = document.getElementById('pesquisa').value.toLowerCase();
+      lista.innerHTML = '';
+
+      const filtradas = vagas.filter(vaga => {
+        const condCidade = !filtroCidade || vaga.local.toLowerCase().includes(filtroCidade);
+        const condTipo = !filtroTipo || vaga.tipo.toLowerCase().includes(filtroTipo);
+        const condBusca = !pesquisa || vaga.titulo.toLowerCase().includes(pesquisa) || vaga.descricao.toLowerCase().includes(pesquisa);
+        return condCidade && condTipo && condBusca;
+      });
+
+      if (filtradas.length === 0) {
+        lista.innerHTML = "<p>Nenhuma vaga encontrada.</p>";
+        return;
+      }
+
+      filtradas.forEach(vaga => {
+        const el = document.createElement("div");
+        el.className = "vaga";
+        el.innerHTML = `
+          <h3>${vaga.titulo}</h3>
+          <p><strong>Empresa:</strong> ${vaga.empresa}</p>
+          <p><strong>Local:</strong> ${vaga.local}</p>
+          <p><strong>Tipo:</strong> ${vaga.tipo}</p>
+          <p>${vaga.descricao}</p>
+          <button onclick="alert('Você foi redirecionado para candidatura externa.')">Candidatar-se</button>
+        `;
+        lista.appendChild(el);
+      });
+    }
+
+    document.getElementById('cidade').addEventListener('change', exibirVagas);
+    document.getElementById('modalidade').addEventListener('change', exibirVagas);
+    document.getElementById('pesquisa').addEventListener('input', exibirVagas);
+
+    exibirVagas();
+  </script>
+</body>
+</html>

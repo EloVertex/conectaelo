@@ -1,0 +1,35 @@
+{
+  "users": [
+    {
+      "username": "marcos",
+      "password": "marcosteste",
+      "nome": "Marcos Silva",
+      "assinatura": "premium"
+    },
+    {
+      "username": "usuario",
+      "password": "senha123",
+      "nome": "Aluno Teste",
+      "assinatura": "none"
+    }
+  ],
+  "admins": [
+    {
+      "username": "admin",
+      "password": "admin123",
+      "nome": "Administrador"
+    }
+  ],
+  "agendamentos": [],
+  "materiais": [
+    {
+      "id": "m1",
+      "titulo": "Guia de Carreira - PDF",
+      "descricao": "Guia completo para escolha de carreira",
+      "link": "https://example.com/guia.pdf",
+      "premium": true,
+      "criadoEm": "2025-08-01T12:00:00Z"
+    }
+  ],
+  "chat": []
+}

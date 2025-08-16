@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Certificado - Elo Vertex</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f8fb;
+      padding: 20px;
+      text-align: center;
+      color: #222; /* cor do texto mais escura */
+    }
+    #certificado {
+      width: 842px;
+      height: 595px;
+      margin: auto;
+      background: #fff;
+      border: 5px solid #0057A8;
+      padding: 30px;
+      box-sizing: border-box;
+      color: #222;
+    }
+    #certificado img {
+      width: 120px;
+      margin: auto;
+      display: block;
+    }
+    #certificado h2 {
+      margin-top: 20px;
+      font-size: 26px;
+      color: #003f7f;
+      font-weight: bold;
+    }
+    #certificado p {
+      font-size: 18px;
+      margin: 20px 0;
+      color: #222;
+      line-height: 1.6;
+    }
+    #certificado strong {
+      color: #000;
+      font-weight: bold;
+    }
+    #gerarPDF {
+      background: #0057A8;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    #gerarPDF:hover {
+      background: #003f7f;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="color: #003366;">📄 Seu Certificado de Mentoria</h1>
+
+  <div id="certificado">
+    <img src="../assets/logo.png" alt="Logo Elo Vertex">
+    <h2>CERTIFICADO DE CONCLUSÃO</h2>
+    <p>
+      Certificamos que <strong id="nomeUsuario">[NOME DO USUÁRIO]</strong><br>
+      concluiu com êxito a mentoria <strong id="nomeMentoria">“[NOME DA MENTORIA]”</strong><br>
+      com carga horária de <strong id="cargaHoraria">2 horas</strong>, no dia <strong id="dataConclusao">[DATA]</strong>.
+    </p>
+    <p>Código de validação: <strong id="codigoValidacao">ELO-XXXX-XXXX</strong></p>
+    <div style="margin-top: 60px;">
+      <p><strong>Capitão Gervásio Oliveira – PI</strong></p>
+      <p><strong>Coordenação da Plataforma Elo Vertex</strong></p>
+    </div>
+  </div>
+
+  <button id="gerarPDF">📥 Baixar PDF do Certificado</button>
+
+  <script>
+    // Dados simulados (trocar por dados reais com Firebase ou backend)
+    const certificado = {
+      nomeUsuario: "Marcos Silva Dias",
+      nomeMentoria: "Planejamento de Carreira",
+      dataConclusao: new Date().toLocaleDateString('pt-BR'),
+      cargaHoraria: "2 horas",
+      codigoValidacao: "ELO-25X3-8492"
+    };
+
+    // Inserir os dados no HTML
+    document.getElementById("nomeUsuario").innerText = certificado.nomeUsuario;
+    document.getElementById("nomeMentoria").innerText = certificado.nomeMentoria;
+    document.getElementById("dataConclusao").innerText = certificado.dataConclusao;
+    document.getElementById("cargaHoraria").innerText = certificado.cargaHoraria;
+    document.getElementById("codigoValidacao").innerText = certificado.codigoValidacao;
+
+    // Gerar PDF ao clicar
+    document.getElementById("gerarPDF").addEventListener("click", () => {
+      const certificadoDiv = document.getElementById("certificado");
+      html2canvas(certificadoDiv).then(canvas => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jspdf.jsPDF({
+          orientation: "landscape",
+          unit: "px",
+          format: [842, 595]
+        });
+        pdf.addImage(imgData, "PNG", 0, 0, 842, 595);
+        pdf.save("certificado-elo-vertex.pdf");
+      });
+    });
+  </script>
+
+</body>
+</html>

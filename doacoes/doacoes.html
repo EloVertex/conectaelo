@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Doações - Elo Vertex</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/style.css" />
+  <style>
+    body {
+      background: linear-gradient(to right, #0f172a, #1e293b);
+      font-family: 'Segoe UI', sans-serif;
+      color: #f8fafc;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background-color: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    h1 {
+      color: #60a5fa;
+      margin-bottom: 20px;
+    }
+
+    p {
+      margin: 10px 0;
+      font-size: 1.1rem;
+    }
+
+    .pix-box {
+      background-color: #0f172a;
+      border: 2px dashed #60a5fa;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 10px;
+      word-break: break-all;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      background-color: #10b981;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 20px;
+    }
+
+    .btn:hover {
+      background-color: #059669;
+    }
+
+    .valores {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .valor {
+      background-color: #334155;
+      padding: 15px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #fff;
+      transition: background 0.3s ease;
+    }
+
+    .valor:hover {
+      background-color: #1e40af;
+    }
+
+    .voltar {
+      margin-top: 40px;
+    }
+
+    .voltar a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      margin-top: 15px;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 6px;
+      border: none;
+      background-color: #334155;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>💰 Apoie o Elo Vertex</h1>
+    <p>Com a sua doação, conseguimos continuar transformando vidas através da tecnologia e educação.</p>
+    <p>Escolha um valor para doar ou copie nossa chave PIX abaixo:</p>
+
+    <div class="valores">
+      <div class="valor" onclick="setarValor('R$10')">R$10</div>
+      <div class="valor" onclick="setarValor('R$25')">R$25</div>
+      <div class="valor" onclick="setarValor('R$50')">R$50</div>
+      <div class="valor" onclick="setarValor('Outro valor')">Outro valor</div>
+    </div>
+
+    <input type="text" id="nomeDoador" placeholder="Seu nome (ou anônimo)" />
+
+    <div class="pix-box" id="pixChave">
+      chavepix@elovertex.org
+    </div>
+
+    <button class="btn" onclick="copiarPIX()">📋 Copiar chave PIX</button>
+
+    <div class="voltar">
+      <a href="../dashboard.html">🔙 Voltar ao painel</a>
+    </div>
+  </div>
+
+  <script>
+    function copiarPIX() {
+      const chave = document.getElementById("pixChave").textContent.trim();
+      navigator.clipboard.writeText(chave)
+        .then(() => alert("Chave PIX copiada com sucesso!"))
+        .catch(() => alert("Erro ao copiar chave PIX."));
+    }
+
+    function setarValor(valor) {
+      alert("Você escolheu doar " + valor + ". Obrigado!");
+    }
+  </script>
+</body>
+</html>

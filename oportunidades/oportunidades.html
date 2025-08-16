@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mapa de Oportunidades - Elo Vertex</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/style.css" />
+  <style>
+    body {
+      background: linear-gradient(to right, #0f172a, #1e293b);
+      font-family: 'Segoe UI', sans-serif;
+      color: #f8fafc;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      background-color: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      text-align: center;
+      color: #60a5fa;
+      margin-bottom: 30px;
+    }
+
+    .filtros {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    select {
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      background-color: #334155;
+      color: #fff;
+      font-size: 1rem;
+      min-width: 200px;
+    }
+
+    .oportunidade {
+      background-color: #0f172a;
+      padding: 20px;
+      border-left: 5px solid #10b981;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+
+    .oportunidade h3 {
+      margin-top: 0;
+      color: #93c5fd;
+    }
+
+    .oportunidade a {
+      color: #38bdf8;
+      text-decoration: underline;
+    }
+
+    .voltar {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .voltar a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      .filtros {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌐 Mapa de Oportunidades</h1>
+
+    <div class="filtros">
+      <select id="estado" onchange="atualizarMunicipios()">
+        <option value="">Selecione o Estado</option>
+        <option value="PI">Piauí</option>
+        <option value="SP">São Paulo</option>
+        <option value="RJ">Rio de Janeiro</option>
+        <option value="MG">Minas Gerais</option>
+        <option value="BA">Bahia</option>
+        <option value="PE">Pernambuco</option>
+        <option value="CE">Ceará</option>
+        <option value="MA">Maranhão</option>
+        <option value="DF">Distrito Federal</option>
+        <option value="RS">Rio Grande do Sul</option>
+        <!-- Adicione mais estados conforme necessário -->
+      </select>
+
+      <select id="municipio">
+        <option value="">Selecione o Município</option>
+      </select>
+
+      <select id="tipo">
+        <option value="">Tipo de Oportunidade</option>
+        <option value="curso">Curso Gratuito</option>
+        <option value="estagio">Estágio</option>
+        <option value="bolsa">Bolsa</option>
+      </select>
+    </div>
+
+    <div id="lista-oportunidades">
+      <div class="oportunidade">
+        <h3>Curso de Programação Web (Senai - PI)</h3>
+        <p>Município: Dom Inocêncio</p>
+        <p>Modalidade: Curso Gratuito</p>
+        <a href="#">Saiba mais</a>
+      </div>
+
+      <div class="oportunidade">
+        <h3>Bolsa Jovem Cientista (CNPq)</h3>
+        <p>Disponível para todos os estados</p>
+        <p>Modalidade: Bolsa de Iniciação Científica</p>
+        <a href="#">Ver edital</a>
+      </div>
+
+      <div class="oportunidade">
+        <h3>Estágio em Tecnologia - IFPI Floriano</h3>
+        <p>Município: Floriano</p>
+        <p>Modalidade: Estágio técnico remunerado</p>
+        <a href="#">Mais informações</a>
+      </div>
+
+      <div class="oportunidade">
+        <h3>Curso de Excel Profissional - Fundação Bradesco</h3>
+        <p>Online para todo Brasil</p>
+        <p>Modalidade: Curso Gratuito</p>
+        <a href="#">Matricule-se</a>
+      </div>
+    </div>
+
+    <div class="voltar">
+      <a href="../dashboard.html">🔙 Voltar ao painel</a>
+    </div>
+  </div>
+
+  <script>
+    const municipiosPI = [
+      "Dom Inocêncio", "Teresina", "Picos", "Floriano", "Parnaíba", "São Raimundo Nonato", "Bom Jesus", "Corrente", "Uruçuí", "Oeiras"
+    ];
+
+    function atualizarMunicipios() {
+      const estado = document.getElementById("estado").value;
+      const municipioSelect = document.getElementById("municipio");
+      municipioSelect.innerHTML = '<option value="">Selecione o Município</option>';
+
+      if (estado === "PI") {
+        municipiosPI.forEach(mun => {
+          const opt = document.createElement("option");
+          opt.value = mun;
+          opt.textContent = mun;
+          municipioSelect.appendChild(opt);
+        });
+      }
+    }
+  </script>
+</body>
+</html>
+<a href="../dashboard.html" class="voltar">🔙 Voltar ao painel</a>
+  </div>

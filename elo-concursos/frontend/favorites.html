@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Favoritos — Elo Vertex</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">🦜</div>
+      <div><h1>Favoritos</h1><small>Meus concursos salvos</small></div>
+    </div>
+    <div><button onclick="location.href='index.html'">Voltar</button></div>
+  </header>
+
+  <main class="container">
+    <div id="list"></div>
+  </main>
+
+  <script>
+  function renderFavorites(){
+    const listEl = document.getElementById('list');
+    const favs = JSON.parse(localStorage.getItem('favConcursos')||'[]');
+    if(!favs.length){ listEl.innerHTML = '<p>Sem favoritos.</p>'; return; }
+    listEl.innerHTML = '';
+    favs.forEach((link, idx) => {
+      const card = document.createElement('div'); card.className='card';
+      card.innerHTML = `
+        <div>
+          <h3>Favorito ${idx+1}</h3>
+          <p><a href="${link}" target="_blank">${link}</a></p>
+        </div>
+        <div>
+          <button onclick="removeFav('${link}')">Remover</button>
+        </div>
+      `;
+      listEl.appendChild(card);
+    });
+  }
+  function removeFav(link){
+    const arr = JSON.parse(localStorage.getItem('favConcursos')||'[]');
+    const i = arr.indexOf(link); if(i>=0) arr.splice(i,1);
+    localStorage.setItem('favConcursos', JSON.stringify(arr)); renderFavorites();
+  }
+  document.addEventListener('DOMContentLoaded', renderFavorites);
+  </script>
+</body>
+</html>

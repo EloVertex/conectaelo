@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "name": "Concurso Prefeitura de São Paulo - Educação",
+    "area": "Educação",
+    "state": "SP",
+    "municipality": "São Paulo",
+    "lat": -23.55052,
+    "lng": -46.633308,
+    "date": "2025-09-10",
+    "link": "https://exemplo.com/sp-educacao"
+  },
+  {
+    "id": 2,
+    "name": "Concurso Polícia Civil - Técnico Administrativo",
+    "area": "Segurança",
+    "state": "RJ",
+    "municipality": "Rio de Janeiro",
+    "lat": -22.906847,
+    "lng": -43.172896,
+    "date": "2025-08-30",
+    "link": "https://exemplo.com/pc-rj"
+  },
+  {
+    "id": 3,
+    "name": "Concurso Prefeitura de Fortaleza - Saúde",
+    "area": "Saúde",
+    "state": "CE",
+    "municipality": "Fortaleza",
+    "lat": -3.71722,
+    "lng": -38.543369,
+    "date": "2025-10-01",
+    "link": "https://exemplo.com/fortaleza-saude"
+  },
+  {
+    "id": 4,
+    "name": "Concurso Tribunal de Justiça - Analista Judiciário",
+    "area": "Jurídico",
+    "state": "PE",
+    "municipality": "Recife",
+    "lat": -8.047562,
+    "lng": -34.876964,
+    "date": "2025-11-15",
+    "link": "https://exemplo.com/tj-pe"
+  },
+  {
+    "id": 5,
+    "name": "Concurso Prefeitura de Capitão Gervásio Oliveira - Serviços Gerais",
+    "area": "Administrativo",
+    "state": "PI",
+    "municipality": "Capitão Gervásio Oliveira",
+    "lat": -7.310000,
+    "lng": -41.770000,
+    "date": "2025-07-20",
+    "link": "https://exemplo.com/cap-gervasio"
+  },
+  {
+    "id": 6,
+    "name": "Concurso ENEM (Simulado) - Organização",
+    "area": "Administrativo",
+    "state": "BR", 
+    "municipality": "Nacional",
+    "lat": -14.235004,
+    "lng": -51.92528,
+    "date": "2025-12-01",
+    "link": "https://exemplo.com/enem"
+  },
+  {
+    "id": 7,
+    "name": "Concurso Saúde do RS - Enfermeiro",
+    "area": "Saúde",
+    "state": "RS",
+    "municipality": "Porto Alegre",
+    "lat": -30.034647,
+    "lng": -51.217658,
+    "date": "2025-09-05",
+    "link": "https://exemplo.com/saude-rs"
+  },
+  {
+    "id": 8,
+    "name": "Concurso Universidade Federal - Professor Adjunto",
+    "area": "Educação",
+    "state": "MG",
+    "municipality": "Belo Horizonte",
+    "lat": -19.92083,
+    "lng": -43.937778,
+    "date": "2025-10-30",
+    "link": "https://exemplo.com/ufmg-prof"
+  }
+]

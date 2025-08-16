@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Auto-Descobrimento – Conecta Elo</title>
+  <link rel="stylesheet" href="../assets/style.css" />
+  <style>
+    body {
+      background-color: #ffffff;
+      color: #222;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    header {
+      background-color: #0057A8;
+      padding: 20px;
+      text-align: center;
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #f9f9f9;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    }
+
+    h2 {
+      color: #0057A8;
+      margin-bottom: 10px;
+    }
+
+    .question {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 8px;
+      cursor: pointer;
+    }
+
+    button {
+      background-color: #0057A8;
+      color: white;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    #resultado {
+      margin-top: 30px;
+      padding: 20px;
+      border: 2px solid #0057A8;
+      border-radius: 10px;
+      background-color: #e6f0fa;
+    }
+
+    .back-button {
+      display: inline-block;
+      margin-top: 30px;
+      text-decoration: none;
+      background-color: #0057A8;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header>🔍 Descubra seu Perfil Profissional – Conecta Elo</header>
+
+  <div class="container">
+    <h2>1. Soft Skills</h2>
+    <div class="question">
+      <p>Você se considera uma pessoa:</p>
+      <label><input type="radio" name="q1" value="tecnologia" /> Analítica e lógica</label>
+      <label><input type="radio" name="q1" value="saude" /> Empática e cuidadosa</label>
+      <label><input type="radio" name="q1" value="artes" /> Criativa e expressiva</label>
+      <label><input type="radio" name="q1" value="negocios" /> Líder e estratégica</label>
+      <label><input type="radio" name="q1" value="tecnica" /> Prática e objetiva</label>
+    </div>
+
+    <h2>2. Hard Skills</h2>
+    <div class="question">
+      <p>Qual dessas habilidades você domina mais?</p>
+      <label><input type="radio" name="q2" value="tecnologia" /> Programação, planilhas ou tecnologia</label>
+      <label><input type="radio" name="q2" value="saude" /> Primeiros socorros ou cuidados pessoais</label>
+      <label><input type="radio" name="q2" value="artes" /> Design, música ou escrita</label>
+      <label><input type="radio" name="q2" value="negocios" /> Planejamento ou vendas</label>
+      <label><input type="radio" name="q2" value="tecnica" /> Manutenção, elétrica ou construção</label>
+    </div>
+
+    <h2>3. Perfil de Personalidade</h2>
+    <div class="question">
+      <p>Qual frase mais combina com você?</p>
+      <label><input type="radio" name="q3" value="tecnologia" /> Gosto de resolver problemas com lógica</label>
+      <label><input type="radio" name="q3" value="saude" /> Me preocupo com o bem-estar das pessoas</label>
+      <label><input type="radio" name="q3" value="artes" /> Gosto de criar coisas novas e originais</label>
+      <label><input type="radio" name="q3" value="negocios" /> Sou bom em liderar e tomar decisões</label>
+      <label><input type="radio" name="q3" value="tecnica" /> Gosto de trabalhos diretos e práticos</label>
+    </div>
+
+    <button onclick="gerarResultado()">Ver Resultado</button>
+
+    <div id="resultado"></div>
+
+    <a class="back-button" href="../dashboard.html">← Voltar ao Painel</a>
+  </div>
+
+  <script>
+    function gerarResultado() {
+      const respostas = [
+        document.querySelector('input[name="q1"]:checked')?.value,
+        document.querySelector('input[name="q2"]:checked')?.value,
+        document.querySelector('input[name="q3"]:checked')?.value
+      ];
+
+      if (respostas.includes(undefined)) {
+        alert("Por favor, responda todas as perguntas.");
+        return;
+      }
+
+      const contagem = {};
+      respostas.forEach(r => {
+        contagem[r] = (contagem[r] || 0) + 1;
+      });
+
+      let areaFinal = Object.keys(contagem).reduce((a, b) => contagem[a] > contagem[b] ? a : b);
+
+      const areas = {
+        tecnologia: {
+          nome: "Tecnologia e Exatas",
+          cursos: "Ciência da Computação, Engenharia, Análise de Sistemas, Dados",
+          cor: "#0057A8"
+        },
+        saude: {
+          nome: "Saúde e Humanas",
+          cursos: "Medicina, Enfermagem, Psicologia, Educação Física",
+          cor: "#27AE60"
+        },
+        artes: {
+          nome: "Artes e Comunicação",
+          cursos: "Design, Jornalismo, Música, Cinema, Publicidade",
+          cor: "#8E44AD"
+        },
+        negocios: {
+          nome: "Negócios e Gestão",
+          cursos: "Administração, Economia, Marketing, Logística",
+          cor: "#D35400"
+        },
+        tecnica: {
+          nome: "Técnico e Operacional",
+          cursos: "Manutenção, Construção, Agropecuária, Elétrica",
+          cor: "#7F8C8D"
+        }
+      };
+
+      const resultado = areas[areaFinal];
+
+      document.getElementById("resultado").innerHTML = `
+        <h2 style="color:${resultado.cor}">🔍 Sua área ideal é: ${resultado.nome}</h2>
+        <p><strong>Cursos recomendados:</strong> ${resultado.cursos}</p>
+        <a href="../trilhas/trilhas.html" style="display:inline-block; margin-top:15px; background-color:${resultado.cor}; color:#fff; padding:10px 20px; border-radius:6px; text-decoration:none;">Quero aprender mais sobre essa área</a>
+      `;
+    }
+  </script>
+</body>
+</html>
+<iframe src="/chatbot/index.html" style="position:fixed; bottom:20px; right:20px; border:none; width:380px; height:460px; z-index:999;"></iframe>
+
+

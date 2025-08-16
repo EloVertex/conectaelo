@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mapa de Concursos - rumo certo</title>
+<link rel="stylesheet" href="../assets/style.css" />
+<header>
+    <img src="../assets/logo.png" alt="Logo Elo Vertex" class="logo-pequena-central" />
+    <h1 class="frase-impacto">Mapa de Concursos</h1>
+  </header> 
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="" crossorigin=""/>
+<!-- MarkerCluster CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+
+<style>
+  body { margin:0; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+  .topbar{
+    display:flex; gap:10px; align-items:center; padding:12px; background: linear-gradient(90deg,#0b3b75,#1e90ff);
+    color:white; flex-wrap:wrap;
+  }
+  .topbar h1{ margin:0; font-size:18px; }
+  .controls { display:flex; gap:8px; align-items:center; margin-left:auto; flex-wrap:wrap; }
+  .controls select, .controls input[type="search"], .controls button{
+    padding:8px; border-radius:8px; border: none; font-size:14px;
+  }
+  #map { height: calc(100vh - 64px); width:100%; }
+  .legend { background: rgba(255,255,255,0.95); padding:8px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.15);}
+  .card-popup { font-size:14px; }
+  .info-count { margin-left:12px; color:#fff; opacity:0.9; font-size:14px; }
+  @media (max-width:600px){
+    .controls{ width:100%; justify-content:space-between; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>Mapa de Concursos — rumo certo</h1>
+
+  <div class="controls">
+    <select id="areaFilter">
+      <option value="">Todas as Áreas</option>
+    </select>
+
+    <select id="stateFilter">
+      <option value="">Todos os Estados</option>
+    </select>
+
+    <select id="munFilter">
+      <option value="">Todos os Municípios</option>
+    </select>
+
+    <input type="search" id="qSearch" placeholder="Pesquisar nome do concurso..." />
+
+    <button id="resetBtn">Reset</button>
+  </div>
+
+  <div class="info-count" id="countInfo">0 concursos</div>
+</div>
+
+<div id="map"></div>
+
+<!-- JS libs -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+<script>
+/*
+  Arquivo principal. Para usar com dados reais:
+  - Substitua 'contests.json' pela URL da sua API (ex: '/api/contests').
+  - Certifique-se de que cada item tem: id, name, area, state, municipality, lat, lng, date, link.
+*/
+
+/* ---------- CONFIGURAÇÕES ---------- */
+const DATA_URL = 'contests.json'; // troque pela sua API se quiser
+
+/* ---------- Inicialização do mapa ---------- */
+const map = L.map('map').setView([-14.2350, -51.9253], 4); // centro do Brasil
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+  attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+const markersLayer = L.markerClusterGroup();
+map.addLayer(markersLayer);
+
+/* ---------- Elementos da UI ---------- */
+const areaFilter = document.getElementById('areaFilter');
+const stateFilter = document.getElementById('stateFilter');
+const munFilter = document.getElementById('munFilter');
+const qSearch = document.getElementById('qSearch');
+const resetBtn = document.getElementById('resetBtn');
+const countInfo = document.getElementById('countInfo');
+
+/* ---------- Estado local ---------- */
+let allContests = []; // array com todos os concursos
+let markerMap = new Map(); // id -> marker
+
+/* ---------- Funções utilitárias ---------- */
+function formatDateISO(d){
+  if(!d) return '';
+  const dt = new Date(d);
+  if(isNaN(dt)) return d;
+  return dt.toLocaleDateString('pt-BR');
+}
+
+function buildPopupHtml(item){
+  return `
+    <div class="card-popup">
+      <strong>${item.name}</strong><br/>
+      <small>Área: ${item.area} • ${item.state} / ${item.municipality}</small><br/>
+      <small>Inscrições até: ${formatDateISO(item.date)}</small><br/>
+      <a href="${item.link || '#'}" target="_blank" rel="noopener">Mais informações / Inscrição</a>
+    </div>
+  `;
+}
+
+/* ---------- Carregar os dados (JSON local ou API) ---------- */
+async function loadData(){
+  try {
+    const res = await fetch(DATA_URL);
+    if(!res.ok) throw new Error('Falha ao carregar dados: ' + res.statusText);
+    const data = await res.json();
+    allContests = data;
+    populateFilters();
+    plotAll();
+  } catch(err) {
+    console.error(err);
+    alert('Erro ao carregar dados: ' + err.message + '\nVerifique o arquivo contests.json ou a URL configurada.');
+  }
+}
+
+/* ---------- Preenche selects com valores únicos ---------- */
+function populateFilters(){
+  const areas = new Set();
+  const states = new Set();
+  const munMap = {}; // state -> set(mun)
+
+  allContests.forEach(c => {
+    areas.add(c.area || 'Sem área');
+    states.add(c.state || '—');
+    const s = c.state || '—';
+    if(!munMap[s]) munMap[s] = new Set();
+    munMap[s].add(c.municipality || '—');
+  });
+
+  // ordenar e popular areaFilter
+  Array.from(areas).sort((a,b)=>a.localeCompare(b,'pt-BR')).forEach(a=>{
+    const opt = document.createElement('option'); opt.value = a; opt.textContent = a; areaFilter.appendChild(opt);
+  });
+
+  Array.from(states).sort((a,b)=>a.localeCompare(b,'pt-BR')).forEach(s=>{
+    const opt = document.createElement('option'); opt.value = s; opt.textContent = s; stateFilter.appendChild(opt);
+  });
+
+  // quando mudar estado, popular município
+  stateFilter.addEventListener('change', ()=>{
+    const st = stateFilter.value;
+    populateMunSelect(st ? Array.from(munMap[st] || []) : flattenArray(Object.values(munMap)));
+    applyFilters();
+  });
+}
+
+/* popula município com lista fornecida */
+function populateMunSelect(list){
+  munFilter.innerHTML = '';
+  const base = document.createElement('option'); base.value=''; base.textContent='Todos os Municípios'; munFilter.appendChild(base);
+  list.sort((a,b)=>a.localeCompare(b,'pt-BR')).forEach(m=>{
+    const o = document.createElement('option'); o.value = m; o.textContent = m; munFilter.appendChild(o);
+  });
+}
+
+/* helper para transformar array de sets em array */
+function flattenArray(arr){
+  const out = new Set();
+  arr.forEach(s=> s.forEach(x=> out.add(x)));
+  return Array.from(out);
+}
+
+/* ---------- Adiciona marcadores ao mapa ---------- */
+function plotAll(){
+  markersLayer.clearLayers();
+  markerMap.clear();
+
+  allContests.forEach(item => {
+    if(!item.lat || !item.lng) return;
+    const m = L.marker([item.lat, item.lng], { title: item.name });
+    m.bindPopup(buildPopupHtml(item), { minWidth: 220 });
+    m.item = item; // referencia para filtros
+    markersLayer.addLayer(m);
+    markerMap.set(item.id, m);
+  });
+
+  updateCount();
+}
+
+/* ---------- Aplica filtros (área, estado, município, texto) ---------- */
+function applyFilters(){
+  const area = areaFilter.value;
+  const state = stateFilter.value;
+  const mun = munFilter.value;
+  const q = qSearch.value.trim().toLowerCase();
+
+  markersLayer.clearLayers();
+
+  let shown = 0;
+  markerMap.forEach((marker, id) => {
+    const it = marker.item;
+    let ok = true;
+    if(area && (it.area || '') !== area) ok = false;
+    if(state && (it.state || '') !== state) ok = false;
+    if(mun && (it.municipality || '') !== mun) ok = false;
+    if(q){
+      const hay = (it.name + ' ' + (it.area||'') + ' ' + (it.municipality||'') + ' ' + (it.state||'')).toLowerCase();
+      if(!hay.includes(q)) ok = false;
+    }
+    if(ok){
+      markersLayer.addLayer(marker);
+      shown++;
+    }
+  });
+
+  updateCount(shown);
+}
+
+/* ---------- Atualiza contador visível ---------- */
+function updateCount(shown){
+  if(typeof shown === 'undefined') shown = markersLayer.getLayers().length;
+  countInfo.textContent = `${shown} concurso${shown !== 1 ? 's' : ''}`;
+}
+
+/* ---------- Eventos UI ---------- */
+areaFilter.addEventListener('change', ()=>{
+  applyFilters();
+});
+
+munFilter.addEventListener('change', ()=>{
+  applyFilters();
+});
+
+qSearch.addEventListener('input', ()=>{
+  // Debounce simples
+  if(window._qTO) clearTimeout(window._qTO);
+  window._qTO = setTimeout(()=> applyFilters(), 250);
+});
+
+resetBtn.addEventListener('click', ()=>{
+  areaFilter.value = '';
+  stateFilter.value = '';
+  populateMunSelect([]); // popula com todos os municípios
+  qSearch.value = '';
+  applyFilters();
+});
+
+/* ---------- Inicial ---------- */
+loadData();
+</script>
+ </body>
+</html>

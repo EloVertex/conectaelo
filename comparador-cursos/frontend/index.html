@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Comparador de Cursos - Conecta Elo</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* CSS básico embutido para você testar logo */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f7fc;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: #222;
+    }
+    header {
+      background: #0057A8;
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+    }
+    main {
+      flex: 1;
+      max-width: 720px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      width: 100%;
+    }
+    .form-section {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    .form-section input[type="text"] {
+      flex: 1 1 200px;
+      padding: 0.8rem 1rem;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+    .form-section input[type="text"]:focus {
+      border-color: #0057A8;
+      outline: none;
+    }
+    #btnComparar {
+      background-color: #0057A8;
+      color: white;
+      border: none;
+      padding: 0 1.5rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      flex-shrink: 0;
+    }
+    #btnComparar:hover {
+      background-color: #003f6f;
+    }
+    .result-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .card {
+      background: white;
+      padding: 1.3rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgb(0 0 0 / 0.07);
+      transition: box-shadow 0.3s ease;
+    }
+    .card:hover {
+      box-shadow: 0 6px 15px rgb(0 0 0 / 0.12);
+    }
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 0.6rem;
+      color: #0057A8;
+      font-weight: 700;
+    }
+    .card p {
+      margin: 0;
+      line-height: 1.4;
+      color: #444;
+      white-space: pre-wrap; /* mantém quebras de linha */
+    }
+    /* Responsividade */
+    @media (max-width: 500px) {
+      .form-section {
+        flex-direction: column;
+      }
+      #btnComparar {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🔍 Comparador de Cursos - Conecta Elo</h1>
+  </header>
+
+  <main>
+    <section class="form-section" aria-label="Formulário para comparar cursos">
+      <input
+        type="text"
+        id="curso1"
+        placeholder="Ex: Engenharia Civil"
+        aria-label="Nome do primeiro curso"
+        autocomplete="off"
+      />
+      <input
+        type="text"
+        id="curso2"
+        placeholder="Ex: Arquitetura"
+        aria-label="Nome do segundo curso"
+        autocomplete="off"
+      />
+      <button id="btnComparar" aria-label="Botão para comparar cursos">Comparar</button>
+    </section>
+
+    <section id="resultado" class="result-section" aria-live="polite" aria-atomic="true"></section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

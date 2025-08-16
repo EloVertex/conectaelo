@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mentoria - Elo Vertex</title>
+  <link rel="stylesheet" href="../assets/style.css" />
+  <style>
+    body {
+      background-color: #f8fafc;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+    }
+
+    header {
+      background-color: #1e293b;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header img {
+      width: 80px;
+      display: block;
+      margin: 0 auto 10px;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      color: #60a5fa;
+      margin: 0;
+    }
+
+    main {
+      padding: 30px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    section {
+      background-color: #ffffff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    section h2 {
+      margin-top: 0;
+      color: #1e293b;
+    }
+
+    section p {
+      color: #475569;
+    }
+
+    form input, form select, form textarea, form button {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      font-size: 1rem;
+    }
+
+    form button {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 20px;
+    }
+
+    form button:hover {
+      background-color: #1e40af;
+    }
+
+    .mentores {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .mentor {
+      background-color: #f1f5f9;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: left;
+    }
+
+    .mentor h4 {
+      margin: 5px 0;
+      color: #0f172a;
+    }
+
+    .mentor p {
+      margin: 0;
+      color: #475569;
+    }
+
+    .voltar {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .voltar a {
+      text-decoration: none;
+      padding: 10px 20px;
+      background-color: #1e293b;
+      color: #fff;
+      border-radius: 5px;
+    }
+
+    .voltar a:hover {
+      background-color: #334155;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="../assets/logo.png" alt="Logo Elo Vertex">
+    <h1>Conectando jovens ao futuro com mentores reais</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>✨ O que é a Mentoria Elo Vertex?</h2>
+      <p>A mentoria é um espaço para tirar dúvidas sobre carreira, faculdade, empreendedorismo e tecnologia com especialistas de verdade. Aqui você pode agendar sua mentoria personalizada e gratuita!</p>
+    </section>
+
+    <section>
+      <h2>🗓 Agende sua mentoria</h2>
+      <form>
+        <input type="text" placeholder="Seu nome completo" required />
+        <input type="email" placeholder="Seu e-mail" required />
+        <input type="text" placeholder="Área de interesse (ex: tecnologia, saúde...)" required />
+        <input type="date" required />
+        <button type="submit">Agendar mentoria</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>👨‍🏫 Mentores disponíveis</h2>
+      <div class="mentores">
+        <div class="mentor">
+          <h4>Marina Alves</h4>
+          <p>Psicóloga | Mentora de Carreira</p>
+          <p>Contato: mentor1@elovertex.org</p>
+        </div>
+        <div class="mentor">
+          <h4>João Henrique</h4>
+          <p>Engenheiro de Software | Mentor de Tecnologia</p>
+          <p>Contato: mentor2@elovertex.org</p>
+        </div>
+        <div class="mentor">
+          <h4>Ana Paula Ribeiro</h4>
+          <p>Empreendedora | Mentora de Negócios</p>
+          <p>Contato: mentor3@elovertex.org</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="voltar">
+      <a href="../dashboard.html">🔙 Voltar ao painel</a>
+    </div>
+  </main>
+</body>
+</html>
+<iframe src="/chatbot/index.html" style="position:fixed; bottom:20px; right:20px; border:none; width:380px; height:460px; z-index:999;"></iframe>
+
+

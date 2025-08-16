@@ -1,0 +1,20 @@
+{
+  "name": "comparador-cursos",
+  "version": "1.0.0",
+  "description": "API comparadora de cursos com IA e dados de mercado",
+  "main": "comparador-cursos-backend.js",
+  "scripts": {
+    "start": "node comparador-cursos-backend.js"
+  },
+  "dependencies": {
+    "axios": "^1.11.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "node-cache": "^5.1.2",
+    "openai": "^5.12.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

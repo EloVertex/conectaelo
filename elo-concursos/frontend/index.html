@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Painel Concursos — Elo Vertex</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">🦜 </div>
+            <div>
+        <h1>Equipe Elo Vertex</h1>
+        <small>Mapa de Concursos Abertos — Brasil</small>
+      </div>
+    </div>
+
+    <div class="controls">
+      <select id="ufSelect"><option value="">Estado (UF)</option></select>
+      <select id="munSelect"><option value="">Município</option></select>
+      <select id="areaSelect"><option value="">Área</option></select>
+      <input id="q" placeholder="Buscar por nome, órgão ou palavra-chave" />
+      <button id="searchBtn" class="primary">Pesquisar</button>
+      <button id="favPageBtn">Favoritos</button>
+      <button id="alertBtn" title="Ativar alertas">Ativar Alertas</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="statsBar" class="stats">
+      <div id="count">0 concursos</div>
+      <div id="lastUpdate">—</div>
+    </section>
+
+    <section id="list"></section>
+
+    <nav id="pagination" class="pagination"></nav>
+  </main>
+
+  <footer class="footer">
+    Desenvolvido para Elo Vertex • Você pode salvar favoritos e receber alertas
+  </footer>
+
+  <script>
+  // CONFIG
+  const API_PROXY = '/api/concursos'; // backend proxy
+  const VAPID_PUBLIC_KEY = "BLNUHMCv37DFjRtG-ptwwMziWKlhUdhl97O51TBosT1K7n5JUhidumHCuJn4pMBCQupiHfyydG8_HRW4OU8vk2E";
+ // substitua após gerar (veja backend/generate_vapid.js)
+  // UI refs
+  const ufSelect = document.getElementById('ufSelect');
+  const munSelect = document.getElementById('munSelect');
+  const areaSelect = document.getElementById('areaSelect');
+  const qInput = document.getElementById('q');
+  const searchBtn = document.getElementById('searchBtn');
+  const listEl = document.getElementById('list');
+  const countEl = document.getElementById('count');
+  const lastUpdateEl = document.getElementById('lastUpdate');
+  const paginationEl = document.getElementById('pagination');
+  const favPageBtn = document.getElementById('favPageBtn');
+  const alertBtn = document.getElementById('alertBtn');
+
+  // state
+  const UFS = ['ac','al','am','ap','ba','ce','df','es','go','ma','mg','ms','mt','pa','pb','pe','pi','pr','rj','rn','ro','rr','rs','sc','se','sp','to'];
+  let concursos = [];
+  let filtered = [];
+  let currentPage = 1;
+  const perPage = 8;
+
+  // Inicializa selects UF
+  UFS.forEach(u => {
+    const o = document.createElement('option'); o.value = u; o.textContent = u.toUpperCase();
+    ufSelect.appendChild(o);
+  });
+
+  ufSelect.addEventListener('change', fetchAndRender); // se trocar UF carrega
+  searchBtn.addEventListener('click', fetchAndRender);
+  areaSelect.addEventListener('change', applyFilters);
+  munSelect.addEventListener('change', applyFilters);
+  qInput.addEventListener('input', () => { clearTimeout(window._t); window._t = setTimeout(applyFilters, 300); });
+  favPageBtn.addEventListener('click', () => window.location.href = 'favorites.html');
+
+  // Alert button (subscribe to push)
+  alertBtn.addEventListener('click', async () => {
+    if(!('serviceWorker' in navigator)) return alert('Seu navegador não suporta Service Worker');
+    try{
+      await navigator.serviceWorker.register('/sw.js');
+      const reg = await navigator.serviceWorker.ready;
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+      });
+      // enviar subscription para backend
+      await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ subscription: sub, filters: { uf: ufSelect.value || null } })
+      });
+      alert('Alertas ativados! Você receberá notificações quando surgirem novos concursos (permita notificações).');
+    }catch(err){
+      console.error(err);
+      alert('Falha ao ativar alertas: ' + err.message);
+    }
+  });
+
+  // Util: convert base64 VAPID to Uint8Array
+  function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const rawData = atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+    for (let i = 0; i < rawData.length; ++i) outputArray[i] = rawData.charCodeAt(i);
+    return outputArray;
+  }
+
+  // fetch da API através do backend (proxy)
+  async function fetchAndRender(){
+    const uf = ufSelect.value;
+    if(!uf) { alert('Selecione um estado (UF) para carregar.'); return; }
+    listEl.innerHTML = 'Carregando...';
+    try{
+      const resp = await fetch(`${API_PROXY}/${uf}`);
+      if(!resp.ok) throw new Error('API indisponível');
+      const data = await resp.json();
+      concursos = data.concursos_abertos || [];
+      lastUpdateEl.textContent = 'Atualizado: ' + new Date().toLocaleString();
+      populateAreaMun(concursos);
+      applyFilters();
+    } catch(err){
+      console.error(err);
+      listEl.innerHTML = '<p class="err">Erro ao carregar dados: ' + err.message + '</p>';
+    }
+  }
+
+  function populateAreaMun(arr){
+    const areas = new Set();
+    const mun = new Set();
+    arr.forEach(c => {
+      if(c['Área']) areas.add(c['Área']);
+      if(c.localidade) mun.add(c.localidade);
+    });
+    areaSelect.innerHTML = '<option value="">Área</option>';
+    Array.from(areas).sort().forEach(a => { const o = document.createElement('option'); o.value=a; o.textContent=a; areaSelect.appendChild(o); });
+    munSelect.innerHTML = '<option value="">Município</option>';
+    Array.from(mun).sort().forEach(m => { const o = document.createElement('option'); o.value=m; o.textContent=m; munSelect.appendChild(o); });
+  }
+
+  function applyFilters(){
+    const q = qInput.value.trim().toLowerCase();
+    const area = areaSelect.value;
+    const mun = munSelect.value;
+    filtered = concursos.filter(c => {
+      if(area && (c['Área'] || '') !== area) return false;
+      if(mun && (c.localidade || '') !== mun) return false;
+      if(q){
+        const hay = ((c.Órgão || '') + ' ' + (c['Área']||'') + ' ' + (c.localidade||'') + ' ' + (c.link||'')).toLowerCase();
+        if(!hay.includes(q)) return false;
+      }
+      return true;
+    });
+    currentPage = 1;
+    renderList();
+  }
+
+  function renderList(){
+    listEl.innerHTML = '';
+    countEl.textContent = (filtered.length || 0) + ' concurso' + ((filtered.length !== 1) ? 's' : '');
+    if(filtered.length === 0) { listEl.innerHTML = '<p>Nenhum concurso encontrado.</p>'; paginationEl.innerHTML=''; return;}
+    const start = (currentPage - 1) * perPage;
+    const page = filtered.slice(start, start + perPage);
+
+    page.forEach(c => {
+      const card = document.createElement('article');
+      card.className = 'card';
+      const org = c.Órgão || c['ÓRGÃO'] || c.organizacao || 'Órgão';
+      const title = c['Cargo'] || c['Descrição'] || c.nome || '';
+      const vagas = c['Vagas'] || c.vagas || '';
+      const local = c.localidade || '';
+      const date = c['Inscrições'] || c.data || c['Data'] || '';
+
+      // check favorite
+      const favs = JSON.parse(localStorage.getItem('favConcursos')||'[]');
+      const isFav = favs.includes(c.link);
+
+      card.innerHTML = `
+        <div class="left">
+          <h3>${org} ${title ? `- ${title}` : ''}</h3>
+          <p class="meta">${local} • ${c['Área'] || ''} ${vagas ? '• ' + vagas : ''}</p>
+          <p class="date">Prazo/Info: ${date || '—'}</p>
+          <div class="actions">
+            <a class="btn" href="${c.link || '#'}" target="_blank">Detalhes / Inscrição</a>
+            <button class="favBtn" data-link="${c.link}">${isFav ? '★ Favorito' : '☆ Favorito'}</button>
+          </div>
+        </div>
+        <div class="right">
+          <small>ID: ${c.id || c.link || '—'}</small>
+        </div>
+      `;
+      // handlers
+      card.querySelector('.favBtn').addEventListener('click', (e)=>{
+        e.stopPropagation();
+        toggleFav(c);
+      });
+      listEl.appendChild(card);
+    });
+
+    renderPagination();
+  }
+
+  function renderPagination(){
+    paginationEl.innerHTML = '';
+    const total = Math.ceil(filtered.length / perPage);
+    if(total <= 1) return;
+    for(let i=1;i<=total;i++){
+      const b = document.createElement('button');
+      b.className = i === currentPage ? 'page active' : 'page';
+      b.textContent = i;
+      b.addEventListener('click', ()=>{ currentPage = i; renderList(); });
+      paginationEl.appendChild(b);
+    }
+  }
+
+  function toggleFav(item){
+    const key = 'favConcursos';
+    const arr = JSON.parse(localStorage.getItem(key) || '[]');
+    if(arr.includes(item.link)){
+      const idx = arr.indexOf(item.link); arr.splice(idx,1);
+      showMiniAlert('Removido dos favoritos');
+    } else {
+      arr.push(item.link);
+      showMiniAlert('Adicionado aos favoritos');
+    }
+    localStorage.setItem(key, JSON.stringify(arr));
+    renderList();
+  }
+
+  function showMiniAlert(msg){
+    const el = document.createElement('div');
+    el.className = 'mini-alert';
+    el.textContent = msg;
+    document.body.appendChild(el);
+    setTimeout(()=> el.classList.add('show'), 20);
+    setTimeout(()=> { el.classList.remove('show'); setTimeout(()=> el.remove(),300); }, 2200);
+  }
+
+  // register service worker on load to enable push actions if user grants from alert button
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('/sw.js').catch(()=>{ /* ignore */ });
+  }
+
+  // initial small UI
+  document.addEventListener('DOMContentLoaded', () => {
+    // optionally preselect a UF (ex: PI) for testes: ufSelect.value='pi'; fetchAndRender();
+  });
+  </script>
+</body>
+</html>

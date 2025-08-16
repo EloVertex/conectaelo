@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Auto-Descobrimento - Elo Vertex</title>
+  <link rel="stylesheet" href="../assets/style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #001f3f, #0074D9);
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 80px auto;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      border-radius: 12px;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #fff;
+    }
+
+    .pergunta {
+      margin: 25px 0;
+    }
+
+    .pergunta p {
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .opcao {
+      background-color: #ffffff10;
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .opcao:hover {
+      background-color: #ffffff30;
+    }
+
+    .progresso {
+      height: 18px;
+      background-color: #fff;
+      border-radius: 10px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .progresso-barra {
+      height: 100%;
+      width: 0%;
+      background-color: #00ccff;
+      transition: width 0.3s ease-in-out;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #00ccff;
+      color: black;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .resultado {
+      background-color: #ffffff20;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 30px;
+      display: none;
+    }
+
+    .voltar {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .voltar a {
+      background: #fff;
+      color: #001f3f;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧠 Descubra seu Perfil Profissional</h1>
+    <div class="progresso">
+      <div class="progresso-barra" id="barraProgresso"></div>
+    </div>
+    <div id="quiz"></div>
+    <button class="btn" onclick="proximaPergunta()">Próxima</button>
+
+    <div class="resultado" id="resultadoFinal">
+      <h2>🎯 Sua Área Sugerida</h2>
+      <p id="mensagemResultado"></p>
+      <a href="../trilhas/trilhas.html" class="btn">Quero aprender mais sobre essa área</a>
+    </div>
+
+    <div class="voltar">
+      <a href="../dashboard.html">⬅ Voltar ao Painel</a>
+    </div>
+  </div>
+
+  <script>
+    const perguntas = [
+      { texto: "Você se considera uma pessoa criativa?", tipo: "soft", valor: "Criatividade" },
+      { texto: "Você tem facilidade em liderar?", tipo: "soft", valor: "Liderança" },
+      { texto: "Sabe usar o Canva ou outras ferramentas de design?", tipo: "hard", valor: "Design" },
+      { texto: "Você domina Excel ou planilhas?", tipo: "hard", valor: "Excel" },
+      { texto: "Prefere trabalhar sozinho ou em grupo?", tipo: "perfil", valor: "Independente" },
+      { texto: "Você gosta de ensinar ou explicar algo?", tipo: "soft", valor: "Comunicação" },
+      { texto: "Você tem familiaridade com redes sociais ou marketing?", tipo: "hard", valor: "Mídias" },
+      { texto: "Você é mais analítico ou mais emocional?", tipo: "perfil", valor: "Analítico" },
+      { texto: "Você curte tecnologia e inovação?", tipo: "soft", valor: "Tecnologia" },
+      { texto: "Você consegue resolver problemas de forma prática?", tipo: "perfil", valor: "Prático" }
+    ];
+
+    let indice = 0;
+    let selecionados = [];
+
+    function exibirPergunta() {
+      const quiz = document.getElementById("quiz");
+      quiz.innerHTML = "";
+      if (indice < perguntas.length) {
+        const p = perguntas[indice];
+        const div = document.createElement("div");
+        div.className = "pergunta";
+        div.innerHTML = `<p>${p.texto}</p>
+          <div class="opcao" onclick="selecionar('${p.valor}')">Sim</div>
+          <div class="opcao" onclick="selecionar('')">Não</div>`;
+        quiz.appendChild(div);
+
+        const progresso = document.getElementById("barraProgresso");
+        progresso.style.width = ((indice / perguntas.length) * 100) + "%";
+      }
+    }
+
+    function selecionar(valor) {
+      if (valor) selecionados.push(valor);
+      indice++;
+      exibirPergunta();
+    }
+
+    function proximaPergunta() {
+      if (indice >= perguntas.length) {
+        mostrarResultado();
+      }
+    }
+
+    function mostrarResultado() {
+      document.getElementById("quiz").style.display = "none";
+      document.querySelector(".btn").style.display = "none";
+      document.getElementById("barraProgresso").style.width = "100%";
+
+      const contagem = {};
+      selecionados.forEach((v) => {
+        contagem[v] = (contagem[v] || 0) + 1;
+      });
+
+      let area = "Administração e Comunicação";
+      if (contagem["Excel"] || contagem["Analítico"]) area = "Dados e Tecnologia";
+      if (contagem["Criatividade"] || contagem["Design"]) area = "Marketing Digital e Design";
+      if (contagem["Prático"]) area = "Áreas Técnicas e Operacionais";
+      if (contagem["Liderança"]) area = "Gestão e Negócios";
+
+      const mensagem = `Com base nas suas respostas, sua área ideal pode ser: <strong>${area}</strong>.`;
+      document.getElementById("mensagemResultado").innerHTML = mensagem;
+      document.getElementById("resultadoFinal").style.display = "block";
+    }
+
+    exibirPergunta();
+  </script>
+</body>
+</html>

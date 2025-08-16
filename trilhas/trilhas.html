@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trilhas de Cursos | Elo Vertex</title>
+  <link rel="stylesheet" href="../assets/style.css" />
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #002244, #0057A8);
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 80px 20px 40px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.2rem;
+      color: #fff;
+    }
+
+    .trilhas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .trilha-card {
+      background: #ffffff15;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #00000055;
+      transition: transform 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .trilha-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .trilha-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+      color: #00d4ff;
+    }
+
+    .trilha-card p {
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #ccc;
+    }
+
+    .trilha-card a {
+      display: inline-block;
+      margin: 5px 0;
+      background: #00bfff;
+      color: #000;
+      padding: 8px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .trilha-card a:hover {
+      background: #0094cc;
+    }
+
+    .concluir-btn {
+      margin-top: 10px;
+      background: #28d78c;
+      border: none;
+      padding: 8px 14px;
+      color: #000;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .concluido {
+      background: #444;
+      color: #fff;
+      pointer-events: none;
+    }
+
+    .voltar {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: #00d4ff;
+      color: #000;
+      padding: 10px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      z-index: 10;
+    }
+
+    .certificado-msg {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #7effb2;
+    }
+
+    @media (max-width: 600px) {
+      .voltar {
+        top: 10px;
+        left: 10px;
+        font-size: 14px;
+        padding: 8px 12px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="../dashboard.html" class="voltar">← Voltar ao Painel</a>
+
+  <div class="container">
+    <h1>🎓 Trilhas de Cursos Personalizadas</h1>
+
+    <div class="trilhas-grid">
+      <!-- Trilha 1 -->
+      <div class="trilha-card">
+        <h3>Marketing Digital</h3>
+        <p>Trilha para criativos que dominam comunicação, redes sociais e campanhas.</p>
+        <a href="https://moodle.ifrs.edu.br/course/view.php?id=1234" target="_blank">Curso 1 - Introdução ao Marketing (gratuito)</a><br>
+        <a href="#">Curso 2 - Estratégias Avançadas (premium)</a><br>
+        <a href="#">Curso 3 - Google Ads e SEO (bônus)</a><br>
+        <button class="concluir-btn" onclick="concluirTrilha(this, 'Marketing Digital')">Marcar como Concluído</button>
+        <div class="certificado-msg" style="display:none;">✅ Certificado disponível na aba "Certificados"</div>
+      </div>
+
+      <!-- Trilha 2 -->
+      <div class="trilha-card">
+        <h3>Desenvolvimento Web</h3>
+        <p>Trilha ideal para quem ama tecnologia, lógica e programação.</p>
+        <a href="https://www.ev.org.br/cursos/html-e-css" target="_blank">Curso 1 - HTML e CSS (gratuito)</a><br>
+        <a href="#">Curso 2 - JavaScript Moderno (premium)</a><br>
+        <a href="#">Curso 3 - React ou Vue.js (bônus)</a><br>
+        <button class="concluir-btn" onclick="concluirTrilha(this, 'Desenvolvimento Web')">Marcar como Concluído</button>
+        <div class="certificado-msg" style="display:none;">✅ Certificado disponível na aba "Certificados"</div>
+      </div>
+
+      <!-- Trilha 3 -->
+      <div class="trilha-card">
+        <h3>Empreendedorismo Jovem</h3>
+        <p>Para líderes que desejam criar soluções, negócios e gerar impacto.</p>
+        <a href="https://cursos.alura.com.br/course/empreendedorismo-jovem" target="_blank">Curso 1 - Empreendedorismo (gratuito)</a><br>
+        <a href="#">Curso 2 - Modelagem de Negócios (premium)</a><br>
+        <a href="#">Curso 3 - Pitch e Captação (bônus)</a><br>
+        <button class="concluir-btn" onclick="concluirTrilha(this, 'Empreendedorismo Jovem')">Marcar como Concluído</button>
+        <div class="certificado-msg" style="display:none;">✅ Certificado disponível na aba "Certificados"</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function concluirTrilha(btn, trilhaNome) {
+      btn.classList.add("concluido");
+      btn.innerText = "Trilha Concluída";
+      btn.disabled = true;
+      const msg = btn.nextElementSibling;
+      msg.style.display = "block";
+
+      // Salvar localmente (pode ser substituído por Firebase)
+      localStorage.setItem(`trilha_${trilhaNome}`, "concluida");
+
+      // Aqui você pode chamar uma função para gerar o certificado também
+    }
+  </script>
+</body>
+</html>
+<script>
+  const trilhas = {
+    "Marketing Digital": [
+      "Curso 1 - Introdução ao Marketing",
+      "Curso 2 - Estratégias Avançadas",
+      "Curso 3 - Google Ads e SEO"
+    ],
+    "Desenvolvimento Web": [
+      "Curso 1 - HTML e CSS",
+      "Curso 2 - JavaScript Moderno",
+      "Curso 3 - React ou Vue.js"
+    ],
+    "Empreendedorismo Jovem": [
+      "Curso 1 - Empreendedorismo",
+      "Curso 2 - Modelagem de Negócios",
+      "Curso 3 - Pitch e Captação"
+    ]
+  };

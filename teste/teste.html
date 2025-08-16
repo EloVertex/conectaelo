@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🧠 Teste Vocacional - Elo Vertex</title>
+  <link rel="stylesheet" href="../assets/style.css" />
+    <style>
+    body {
+      background: linear-gradient(to right, #0f172a, #1e293b);
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .logo-pequena-central {
+      width: 70px;
+      display: block;
+      margin: 0 auto 10px;
+    }
+    .frase-impacto {
+      font-size: 1.2rem;
+      color: #60a5fa;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+    .pergunta {
+      margin-bottom: 30px;
+      background-color: #1e293b;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .pergunta h4 {
+      margin-bottom: 10px;
+    }
+    .respostas button {
+      display: block;
+      margin: 8px 0;
+      padding: 12px;
+      border: none;
+      width: 100%;
+      font-size: 1rem;
+      border-radius: 6px;
+      background-color: #2563eb;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .respostas button:hover {
+      background-color: #1e40af;
+    }
+    #resultado {
+      margin-top: 40px;
+      background-color: #0f172a;
+      padding: 20px;
+      border-radius: 10px;
+      display: none;
+    }
+    footer {
+      text-align: center;
+      margin: 40px 0;
+    }
+    .botao-voltar {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #334155;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="../assets/logo.png" alt="Logo Elo Vertex" class="logo-pequena-central" />
+    <h1 class="frase-impacto">Descubra suas áreas de afinidade</h1>
+  </header>
+
+  <main>
+    <form id="testeForm"></form>
+    <div id="resultado"></div>
+    <footer>
+      <a href="../dashboard.html" class="botao-voltar">🔙 Voltar ao painel</a>
+    </footer>
+  </main>
+
+  <script>
+    const perguntas = [
+      {
+        pergunta: "Em qual dessas atividades você se sente mais motivado(a)?",
+        opcoes: {
+          A: "Resolver problemas de matemática e lógica",
+          B: "Cuidar de pessoas ou animais",
+          C: "Criar algo artístico, como música ou desenhos",
+          D: "Organizar eventos ou liderar equipes",
+          E: "Trabalhar com máquinas, equipamentos ou tecnologias"
+        }
+      },
+      {
+        pergunta: "Qual dessas tarefas você faria com prazer, mesmo sem receber por isso?",
+        opcoes: {
+          A: "Montar um site ou desenvolver um aplicativo",
+          B: "Ensinar alguém ou ajudar a aprender algo novo",
+          C: "Escrever textos, poemas ou histórias",
+          D: "Negociar e convencer pessoas",
+          E: "Consertar algo quebrado ou desmontar objetos"
+        }
+      },
+      {
+        pergunta: "O que as pessoas mais elogiam em você?",
+        opcoes: {
+          A: "Sua capacidade de resolver problemas rapidamente",
+          B: "Seu jeito atencioso e prestativo",
+          C: "Sua criatividade e sensibilidade artística",
+          D: "Seu espírito de liderança e organização",
+          E: "Sua habilidade com ferramentas ou aparelhos"
+        }
+      },
+      {
+        pergunta: "Qual dessas frases melhor descreve você?",
+        opcoes: {
+          A: "Aprendo rápido assuntos técnicos e teóricos",
+          B: "Tenho facilidade em lidar com o sofrimento dos outros",
+          C: "Expresso bem minhas ideias e emoções",
+          D: "Me destaco em grupos, costumo liderar",
+          E: "Sou prático e gosto de coisas manuais"
+        }
+      },
+      {
+        pergunta: "O que é mais importante para você em um futuro trabalho?",
+        opcoes: {
+          A: "Estabilidade e segurança financeira",
+          B: "Ajudar pessoas e fazer a diferença",
+          C: "Liberdade para ser criativo(a)",
+          D: "Crescimento rápido e reconhecimento",
+          E: "Resolver problemas concretos com as mãos"
+        }
+      },
+      {
+        pergunta: "O que você mais valoriza na vida profissional?",
+        opcoes: {
+          A: "Conhecimento e aprendizado contínuo",
+          B: "Humanidade e empatia",
+          C: "Expressão pessoal",
+          D: "Influência e prestígio",
+          E: "Autonomia e objetividade"
+        }
+      }
+    ];
+
+    const pontuacao = { A: 0, B: 0, C: 0, D: 0, E: 0 };
+    const form = document.getElementById("testeForm");
+
+    perguntas.forEach((q, index) => {
+      const div = document.createElement("div");
+      div.className = "pergunta";
+      div.innerHTML = `<h4>${index + 1}. ${q.pergunta}</h4>`;
+
+      const respostas = document.createElement("div");
+      respostas.className = "respostas";
+
+      for (const letra in q.opcoes) {
+        const btn = document.createElement("button");
+        btn.textContent = `${letra}) ${q.opcoes[letra]}`;
+        btn.type = "button";
+        btn.onclick = () => {
+          if (!div.dataset.respondido) {
+            pontuacao[letra]++;
+            div.dataset.respondido = "true";
+            btn.style.backgroundColor = "#10b981";
+          }
+        };
+        respostas.appendChild(btn);
+      }
+
+      div.appendChild(respostas);
+      form.appendChild(div);
+    });
+
+    const btnResultado = document.createElement("button");
+    btnResultado.textContent = "Ver Resultado";
+    btnResultado.type = "submit";
+    btnResultado.style.marginTop = "20px";
+    form.appendChild(btnResultado);
+
+    form.onsubmit = function (e) {
+      e.preventDefault();
+
+      const resultado = document.getElementById("resultado");
+      const areas = {
+        A: {
+          nome: "Exatas, Tecnologia e Engenharias",
+          cursos: ["Engenharia", "Ciência da Computação", "Matemática", "Sistemas de Informação"]
+        },
+        B: {
+          nome: "Humanas e Saúde",
+          cursos: ["Psicologia", "Enfermagem", "Serviço Social", "Pedagogia"]
+        },
+        C: {
+          nome: "Artes e Comunicação",
+          cursos: ["Design", "Publicidade", "Cinema", "Jornalismo"]
+        },
+        D: {
+          nome: "Gestão e Negócios",
+          cursos: ["Administração", "Direito", "Marketing", "Economia"]
+        },
+        E: {
+          nome: "Técnica e Operacional",
+          cursos: ["Mecânica", "Agronomia", "Manutenção", "Construção Civil"]
+        }
+      };
+
+      const maior = Object.entries(pontuacao).reduce((a, b) => (a[1] > b[1] ? a : b))[0];
+      const info = areas[maior];
+
+      resultado.style.display = "block";
+      resultado.innerHTML = `
+        <h3>Sua área de afinidade é: <span style="color:#10b981">${info.nome}</span></h3>
+        <p>Cursos sugeridos:</p>
+        <ul>${info.cursos.map(c => `<li>${c}</li>`).join("")}</ul>
+        <a href="../notas/notas.html" class="botao-voltar">📊 Ver notas de corte</a>
+        <a href="../cursos/cursos.html" class="botao-voltar">🎓 Ver cursos gratuitos</a>
+      `;
+    };
+  </script>
+</body>
+</html>
+
+

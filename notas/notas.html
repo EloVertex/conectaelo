@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Notas de Corte - Elo Vertex</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/style.css" />
+  <style>
+    body {
+      background: linear-gradient(to right, #0f172a, #1e293b);
+      color: #f1f5f9;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #60a5fa;
+    }
+
+    form {
+      background-color: #1e293b;
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    input, select, button {
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      font-size: 1rem;
+    }
+
+    input, select {
+      flex: 1 1 200px;
+    }
+
+    button {
+      background-color: #3b82f6;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #2563eb;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: #1e293b;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #334155;
+      text-align: center;
+    }
+
+    th {
+      background-color: #0f172a;
+      color: #60a5fa;
+    }
+
+    .voltar {
+      display: block;
+      text-align: center;
+      margin-top: 40px;
+      color: #60a5fa;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      form {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="../assets/logo.png" alt="Logo Elo Vertex" class="logo" />
+      <h1>Notas de Corte (Sisu, ProUni e FIES)</h1>
+    </header>
+
+    <form onsubmit="buscarNotas(event)">
+      <input type="text" id="curso" placeholder="Digite o curso (ex: Direito)" required />
+      <select id="uf" required>
+        <option value="">UF</option>
+        <option value="PI">PI</option>
+        <option value="SP">SP</option>
+        <option value="RJ">RJ</option>
+        <option value="BA">BA</option>
+        <option value="PE">PE</option>
+        <option value="CE">CE</option>
+        <option value="RS">RS</option>
+                <!-- Adicione outros estados -->
+      </select>
+      <button type="submit">Buscar</button>
+    </form>
+
+    <table id="resultado">
+      <thead>
+        <tr>
+          <th>Ano</th>
+          <th>Programa</th>
+          <th>Curso</th>
+          <th>Faculdade</th>
+          <th>Nota de Corte</th>
+          <th>UF</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <a href="../dashboard.html" class="voltar">🔙 Voltar ao painel</a>
+  </div>
+
+  <script>
+    const dadosSimulados = [
+      { ano: 2023, programa: 'Sisu', curso: 'Direito', faculdade: 'UFPI', nota: 750, uf: 'PI' },
+      { ano: 2022, programa: 'ProUni', curso: 'Direito', faculdade: 'FAESPI', nota: 720, uf: 'PI' },
+      { ano: 2021, programa: 'FIES', curso: 'Direito', faculdade: 'IESP', nota: 690, uf: 'PI' },
+      { ano: 2023, programa: 'Sisu', curso: 'Engenharia', faculdade: 'UFBA', nota: 740, uf: 'BA' },
+      { ano: 2022, programa: 'ProUni', curso: 'Engenharia', faculdade: 'UNIFACS', nota: 700, uf: 'BA' },
+      { ano: 2023, programa: 'Sisu', curso: 'Medicina', faculdade: 'USP', nota: 790, uf: 'SP' },
+      { ano: 2022, programa: 'ProUni', curso: 'Medicina', faculdade: 'UNISA', nota: 780, uf: 'SP' },
+      { ano: 2023, programa: 'FIES', curso: 'Psicologia', faculdade: 'UFRJ', nota: 720, uf: 'RJ' },
+      { ano: 2022, programa: 'Sisu', curso: 'Psicologia', faculdade: 'UNIRIO', nota: 705, uf: 'RJ' },
+    ];
+
+    function buscarNotas(event) {
+      event.preventDefault();
+      const cursoInput = document.getElementById("curso").value.toLowerCase();
+      const ufInput = document.getElementById("uf").value;
+
+      const tbody = document.querySelector("#resultado tbody");
+      tbody.innerHTML = "";
+
+      const filtrados = dadosSimulados.filter(d =>
+        d.curso.toLowerCase().includes(cursoInput) && d.uf === ufInput
+      );
+
+      if (filtrados.length === 0) {
+        tbody.innerHTML = "<tr><td colspan='6'>Nenhum resultado encontrado.</td></tr>";
+        return;
+      }
+
+      filtrados.forEach(dado => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${dado.ano}</td>
+          <td>${dado.programa}</td>
+          <td>${dado.curso}</td>
+          <td>${dado.faculdade}</td>
+          <td>${dado.nota}</td>
+          <td>${dado.uf}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+  </script>
+</body>
+</html>

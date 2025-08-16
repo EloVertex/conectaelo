@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Elo Vertex nas Escolas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/style.css" />
+  <style>
+    body {
+      background: linear-gradient(to right, #0f172a, #1e293b);
+      font-family: 'Segoe UI', sans-serif;
+      color: #f8fafc;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background-color: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      color: #60a5fa;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .formulario {
+      margin-top: 30px;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      color: #93c5fd;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background-color: #334155;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #2563eb;
+      color: #fff;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1d4ed8;
+    }
+
+    .ods {
+      margin-top: 30px;
+      padding: 15px;
+      background-color: #0f172a;
+      border-left: 4px solid #10b981;
+      border-radius: 8px;
+    }
+
+    .voltar {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .voltar a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏫 Leve o Elo Vertex para sua escola!</h1>
+    <p>
+      O Elo Vertex pode ser implementado em escolas como ferramenta de apoio à orientação profissional e à preparação dos jovens para o mercado de trabalho.
+    </p>
+    <p>
+      Incentivamos parcerias com escolas públicas e privadas, promovendo inclusão, tecnologia e cidadania.
+    </p>
+
+    <div class="formulario">
+      <h2>📩 Solicitar parceria</h2>
+      <form onsubmit="enviarFormulario(); return false;">
+        <label for="escola">Nome da Escola:</label>
+        <input type="text" id="escola" required />
+
+        <label for="responsavel">Responsável (diretor/professor):</label>
+        <input type="text" id="responsavel" required />
+
+        <label for="cidade">Cidade/UF:</label>
+        <input type="text" id="cidade" required />
+
+        <label for="contato">Contato (e-mail ou telefone):</label>
+        <input type="text" id="contato" required />
+
+        <button type="submit">🚀 Enviar solicitação</button>
+      </form>
+    </div>
+
+    <div class="ods">
+      <h3>🎯 Alinhamento com os ODS da ONU</h3>
+      <ul>
+        <li>ODS 4: Educação de Qualidade</li>
+        <li>ODS 8: Trabalho Decente e Crescimento Econômico</li>
+        <li>ODS 10: Redução das Desigualdades</li>
+      </ul>
+    </div>
+
+    <div class="voltar">
+      <a href="../dashboard.html">🔙 Voltar ao painel</a>
+    </div>
+  </div>
+
+  <script>
+    function enviarFormulario() {
+      alert("Solicitação enviada com sucesso! Em breve entraremos em contato.");
+      document.querySelector("form").reset();
+    }
+  </script>
+</body>
+</html>

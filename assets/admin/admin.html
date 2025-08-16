@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Painel Administrativo - Elo Vertex</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/style.css" />
+  <style>
+    body {
+      background: linear-gradient(to right, #0f172a, #1e293b);
+      font-family: 'Segoe UI', sans-serif;
+      color: #f8fafc;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background-color: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      text-align: center;
+      color: #60a5fa;
+      margin-bottom: 30px;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: none;
+      background-color: #334155;
+      color: #fff;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background-color: #1d4ed8;
+    }
+
+    .painel-admin {
+      display: none;
+      margin-top: 30px;
+    }
+
+    .admin-section {
+      background-color: #0f172a;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    .admin-section h3 {
+      color: #38bdf8;
+      margin-bottom: 10px;
+    }
+
+    .voltar {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .voltar a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🛠 Painel de Administração</h1>
+
+    <div id="loginAdmin">
+      <label for="user">Usuário:</label>
+      <input type="text" id="user" placeholder="admin" />
+      <label for="senha">Senha:</label>
+      <input type="password" id="senha" placeholder="••••••" />
+      <button onclick="loginAdmin()">Entrar</button>
+    </div>
+
+    <div class="painel-admin" id="painelAdmin">
+      <div class="admin-section">
+        <h3>👥 Usuários Cadastrados</h3>
+        <ul>
+          <li>Maria Silva – mariasilva@email.com</li>
+          <li>João Souza – joao@gmail.com</li>
+          <li>Ana Lima – analima@hotmail.com</li>
+        </ul>
+      </div>
+
+      <div class="admin-section">
+        <h3>📅 Solicitações de Mentoria</h3>
+        <ul>
+          <li>Pedro Henrique – Área: Tecnologia – Data: 20/07</li>
+          <li>Juliana Alves – Área: Direito – Data: 22/07</li>
+        </ul>
+      </div>
+
+      <div class="admin-section">
+        <h3>🛠 Gerenciar Conteúdo</h3>
+        <p>• Atualizar lista de cursos, editar vagas, inserir novos links.</p>
+        <button onclick="alert('Função simulada!')">Acessar Editor</button>
+      </div>
+    </div>
+
+    <div class="voltar">
+      <a href="../dashboard.html">🔙 Voltar ao painel</a>
+    </div>
+  </div>
+
+  <script>
+    function loginAdmin() {
+      const user = document.getElementById("user").value.trim();
+      const senha = document.getElementById("senha").value.trim();
+
+      if (user === "admin" && senha === "1234") {
+        document.getElementById("loginAdmin").style.display = "none";
+        document.getElementById("painelAdmin").style.display = "block";
+      } else {
+        alert("Usuário ou senha inválidos.");
+      }
+    }
+  </script>
+</body>
+</html>

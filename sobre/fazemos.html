@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>O que Fazemos - Elo Vertex</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../assets/style.css" />
+  <style>
+    body {
+      background: linear-gradient(to right, #0f172a, #1e293b);
+      color: #f8fafc;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #60a5fa;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card i {
+      font-size: 2.5rem;
+      color: #3b82f6;
+      margin-bottom: 15px;
+    }
+
+    .card h3 {
+      margin: 10px 0;
+      font-size: 1.2rem;
+      color: #93c5fd;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+    }
+
+    .card a {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 8px 16px;
+      background-color: #3b82f6;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+
+    .card a:hover {
+      background-color: #2563eb;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .voltar {
+      display: inline-block;
+      margin-top: 30px;
+      color: #60a5fa;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+  <script src="https://kit.fontawesome.com/a2e0b5e6fd.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="../assets/logo.png" alt="Logo Elo Vertex" class="logo" />
+      <h1>O que a plataforma Elo Vertex oferece?</h1>
+    </header>
+
+    <div class="cards">
+      <div class="card">
+        <i class="fas fa-user-check"></i>
+        <h3>Teste de Perfil</h3>
+        <p>Descubra áreas que combinam com sua personalidade e interesses.</p>
+        <a href="../teste/teste.html">Testar agora</a>
+      </div>
+      <div class="card">
+        <i class="fas fa-chart-line"></i>
+        <h3>Dados do Mercado</h3>
+        <p>Entenda onde há demanda e como se preparar para ela.</p>
+        <a href="../teste/teste.html">Ver dados</a>
+      </div>
+      <div class="card">
+        <i class="fas fa-chalkboard-teacher"></i>
+        <h3>Mentoria com Profissionais</h3>
+        <p>Agende sessões com mentores para tirar dúvidas e planejar sua carreira.</p>
+        <a href="../mentoria/mentoria.html">Ver mentores</a>
+      </div>
+      <div class="card">
+        <i class="fas fa-map-marked-alt"></i>
+        <h3>Mapa de Oportunidades</h3>
+        <p>Veja vagas, cursos, estágios e iniciativas disponíveis perto de você.</p>
+        <a href="../oportunidades/oportunidades.html">Ver oportunidades</a>
+      </div>
+      <div class="card">
+        <i class="fas fa-graduation-cap"></i>
+        <h3>Conteúdo Extra & Simulador</h3>
+        <p>Acesse dicas, simuladores, conteúdos interativos e certificados.</p>
+        <a href="../cursos/cursos.html">Ver cursos</a>
+      </div>
+    </div>
+
+    <footer>
+      <a class="voltar" href="../dashboard.html">🔙 Voltar ao painel</a>
+    </footer>
+  </div>
+</body>
+</html>

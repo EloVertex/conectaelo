@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Meu Painel — Elo Vertex</title><link rel="stylesheet" href="style.css"></head>
+<body>
+  <header class="top"><div class="wrap"><div class="logo">Elo Vertex</div><nav class="nav"><a href="index.html">Início</a><a href="mentoria.html">Mentoria</a><a class="active" href="dashboard.html">Meu Painel</a></nav><div class="userbox"><span id="userLabelPanel">Visitante</span><button id="btnLogout" class="small" style="display:none">Sair</button></div></div></header>
+
+  <main class="wrap container">
+    <section class="card">
+      <h2>Meu Painel</h2>
+      <div id="meInfo" class="info">Carregando...</div>
+
+      <h3>Agendamentos</h3>
+      <ul id="myAgendamentos"></ul>
+
+      <h3>Materiais</h3>
+      <ul id="myMateriais"></ul>
+
+      <h3>Agendar (rápido)</h3>
+      <form id="fAgendar">
+        <label>Data</label><input id="fData" type="date" required>
+        <label>Hora</label><input id="fHora" type="time" required>
+        <label>Mentor</label><input id="fMentor" value="João Silva">
+        <button class="btn" type="submit">Agendar</button>
+      </form>
+      <div id="panelMsg" class="info"></div>
+    </section>
+  </main>
+
+<script src="script.js"></script>
+</body>
+</html>

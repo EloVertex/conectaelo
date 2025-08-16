@@ -1,0 +1,1 @@
+{"name":"elo-concursos-backend","version":"1.0.0","main":"server.js","type":"module","scripts":{"start":"node server.js","gen-vapid":"node generate_vapid.js"},"dependencies":{"body-parser":"^1.20.2","cors":"^2.8.5","dotenv":"^17.2.1","express":"^4.19.2","node-fetch":"^3.3.2","nodemailer":"^6.9.11","web-push":"^3.6.7"}}

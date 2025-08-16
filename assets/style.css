@@ -1,0 +1,484 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Cabeçalho fixo */
+header {
+  background-color: #0057A8;
+  color: #fff;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+header img {
+  height: 35px;
+}
+
+header a, header button {
+  color: white;
+  text-decoration: none;
+  margin-left: 15px;
+  font-weight: bold;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Botões */
+.btn {
+  background-color: #0057A8;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background-color: #003f80;
+}
+
+/* Painel */
+.dashboard {
+  padding: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.dashboard .card {
+  background-color: #f1f1f1;
+  color: #333;
+  padding: 25px;
+  border-radius: 8px;
+  width: 230px;
+  height: 140px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: 0.3s ease;
+}
+
+.dashboard .card:hover {
+  transform: scale(1.03);
+  background-color: #e6f0fb;
+}
+
+.card h3 {
+  color: #0057A8;
+  margin-bottom: 10px;
+}
+
+/* Login e cadastro */
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(to right, #ffffff, #f0f4f8);
+}
+
+.login-box {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-title {
+  font-size: 24px;
+  color: #0181f9;
+  margin-bottom: 10px;
+}
+
+.login-subtitle {
+  font-size: 16px;
+  color: #2d2c2c;
+  margin-bottom: 25px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.login-footer {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+/* Barra de progresso (auto-descobrimento) */
+.progress-bar {
+  width: 100%;
+  background-color: #e0e0e0;
+  height: 10px;
+  border-radius: 5px;
+  margin: 15px 0;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #0057A8;
+  width: 0%;
+  border-radius: 5px;
+  transition: width 0.4s ease-in-out;
+}
+
+/* Resultados */
+.resultado-container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #fdfdfd;
+  padding: 30px;
+  border-radius: 8px;
+  border: 2px solid #0057A8;
+  text-align: center;
+}
+
+.resultado-container h2 {
+  color: #0057A8;
+  margin-bottom: 15px;
+}
+
+/* Certificado */
+#certificado {
+  width: 842px;
+  height: 595px;
+  padding: 30px;
+  border: 5px solid #0057A8;
+  font-family: 'Georgia', serif;
+  background-color: #fff;
+  color: #000;
+}
+
+#certificado h2 {
+  text-align: center;
+  color: #0057A8;
+  margin-top: 20px;
+}
+
+#certificado p {
+  font-size: 18px;
+  text-align: center;
+  margin-top: 30px;
+}
+
+/* Trilhas */
+.trilhas-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 30px;
+}
+
+.trilha-card {
+  background: #f5faff;
+  border: 1px solid #cce0f5;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  transition: 0.3s ease;
+}
+
+.trilha-card:hover {
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+}
+
+.trilha-card h4 {
+  color: #0057A8;
+  margin-bottom: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .login-box {
+    padding: 25px;
+  }
+
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .trilhas-container {
+    grid-template-columns: 1fr;
+  }
+}
+.login-logo {
+  width: 120px;
+  margin: 0 auto 20px;
+  display: block;
+}
+/* Estilo Geral */
+body.dashboard-body {
+  margin: 0;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  background-color: #ffffff;
+  color: #222;
+}
+
+/* Cabeçalho */
+.dashboard-header {
+  text-align: center;
+  padding: 30px 20px 10px;
+  background-color: #0057A8;
+  color: white;
+}
+
+.dashboard-logo {
+  max-width: 80px;
+  margin-bottom: 15px;
+}
+
+/* Conteúdo Principal */
+.dashboard-main {
+  padding: 30px 20px;
+  max-width: 1100px;
+  margin: auto;
+  text-align: center;
+}
+
+.descricao-site h2 {
+  color: #0057A8;
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.descricao-site p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+/* Botões */
+.botoes-painel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+  padding-bottom: 60px;
+}
+
+.painel-btn {
+  background-color: #0057A8;
+  color: white;
+  padding: 16px 24px;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.painel-btn:hover {
+  background-color: #003f80;
+  transform: translateY(-2px);
+}
+.painel-body {
+  background-color: #ffffff;
+  color: #1b1b1b;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.painel-header {
+  text-align: center;
+  padding: 40px 20px 10px;
+}
+
+.painel-logo {
+  width: 80px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.painel-subtitle {
+  font-size: 16px;
+  color: #edeaea;
+  max-width: 700px;
+  margin: 0 auto;
+  font-family: sans-serif;
+  }
+
+.painel-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+}
+
+.painel-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.painel-card {
+  background-color: #f1f5fb;
+  border: 2px solid #0057A8;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
+}
+
+.painel-card:hover {
+  transform: translateY(-5px);
+}
+
+.painel-card p {
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.btn-painel {
+  display: inline-block;
+  background-color: #0057A8;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.btn-painel:hover {
+  background-color: #003d7a;
+}
+/* BOTÃO FLUTUANTE */
+#chatbot-button {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: #0057A8;
+  color: #fff;
+  font-size: 26px;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+  z-index: 1000;
+}
+#chatbot-button:hover {
+  transform: scale(1.1);
+}
+
+/* JANELA DO CHAT */
+#chatbot-container {
+  position: fixed;
+  bottom: 100px;
+  right: 25px;
+  width: 340px;
+  max-height: 460px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 999;
+  animation: fadeUp 0.3s ease-in-out;
+}
+
+/* OCULTAR */
+.hidden {
+  display: none;
+}
+
+/* CABEÇALHO */
+#chatbot-header {
+  background: #0057A8;
+  color: white;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* ÁREA DE MENSAGENS */
+#chatbot-messages {
+  flex: 1;
+  padding: 12px;
+  font-size: 14px;
+  overflow-y: auto;
+  background: #f4f7fb;
+}
+
+/* ÁREA DE ENTRADA */
+#chatbot-input-area {
+  display: flex;
+  border-top: 1px solid #ccc;
+}
+#chatbot-input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  outline: none;
+}
+#chatbot-input-area button {
+  background: #0057A8;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* ANIMAÇÃO */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
